@@ -124,13 +124,15 @@ public class Parser{
                 case "CONDITION" -> query.rawWhere.add(raw);
             }
         }
-        //onlu supports one WHERE condition at the moment
+        //only supports one WHERE condition at the moment
         if (query.rawWhere.size() == 3) {
+            System.out.println(query.rawWhere);
             query.condition = new Condition(
                     query.rawWhere.get(0),           // column
                     query.rawWhere.get(1),           // operator
                     parseValue(query.rawWhere.get(2)) // value
             );
+            System.out.println(query.condition.column+" "+query.condition.value);
         }
         return query;
     }

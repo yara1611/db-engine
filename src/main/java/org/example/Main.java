@@ -24,14 +24,18 @@ public class Main {
         //TODO queryengine class
         var tokens = executor.getTokens("INSERT INTO users (id,name) VALUES (2,'yara');");
         var query = executor.executeParser(tokens);
-        var results = executor.executeQuery(query);
+        //var results = executor.executeQuery(query);
         //results.forEach(System.out::println);
         //db.getTable("users").deleteRow(3);
-        var tokens2 = executor.getTokens("SELECT * FROM users WHERE id = 3;");
+        var tokens2 = executor.getTokens("DELETE FROM users WHERE id = 3;");
         var query2 = executor.executeParser(tokens2);
+        var rows = db.getAllRows("users");
+        rows.forEach(System.out::println);
         //System.out.println(query2.rawWhere);
         var results2 = executor.executeQuery(query2);
         results2.forEach(System.out::println);
+        rows = db.getAllRows("users");
+        rows.forEach(System.out::println);
 
     }
 }

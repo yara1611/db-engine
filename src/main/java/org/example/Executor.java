@@ -40,7 +40,8 @@ public class Executor {
     public List<Row> executeQuery(Query query){
         return switch (query.keyword){
             case "SELECT" -> executeSelect(query);
-            case "INSERT" -> {executeInsert(query); yield List.of();} //return empty list instead of null
+            case "INSERT" -> {executeInsert(query); yield List.of();}
+            case "DELETE" -> {executeDelete(query); yield List.of();} //return empty list instead of null
             default -> throw new IllegalArgumentException("Unknown keyword: " + query.keyword);
         };
     }
@@ -52,6 +53,11 @@ public class Executor {
         else {
             return db.getWhere(query.table, query.condition.column,query.condition.value);
         }
+    }
+
+    private void executeDelete(Query query){
+        System.out.println("Quert"+query.condition.column);
+        db.deleteRow(query.table, query.condition.column,query.condition.value);
     }
 
     private void executeInsert(Query query){

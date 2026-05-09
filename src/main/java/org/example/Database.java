@@ -40,6 +40,9 @@ public class Database{
         return getTable(tableName).getWhere(col,val);
     }
 
+    public void deleteRow(String tableName,String col,Object val){
+        getTable(tableName).deleteRow(col,val);
+    }
     public Table getTable(String name){
         Table table = tables.get(name);
         if(table==null){

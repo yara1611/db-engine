@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Table{
     private final String name;
@@ -53,6 +54,17 @@ public class Table{
                 );
             }
         }
+    }
+
+    public void deleteRow(String col,Object val){
+        rows.removeIf(r->r.get(col).equals(val));
+    }
+
+    public List<Row> getWhere(String col,Object val){
+        return rows
+                .stream()
+                .filter(r->r.get(col).equals(val))
+                .collect(Collectors.toList()); //why collect?
     }
 }
 

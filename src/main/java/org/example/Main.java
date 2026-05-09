@@ -28,7 +28,7 @@ public class Main {
         //TODO queryengine class
         //todo drop table and create db
         //todo update
-        //todo select specific columns
+
         Scanner sc = new Scanner(System.in);
         System.out.println("db-engine v0.1 — type SQL or 'exit'");
         while (true){

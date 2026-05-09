@@ -1,9 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -60,6 +57,16 @@ public class Executor {
 
     private List<Row> executeSelect(Query query){
 
+        if(!query.columns.isEmpty() && !query.columns.getFirst().equals("*")){
+            return db.getAllRows(query.table).stream()
+                    .map(r->{
+                        Map<String, Object> filtered = new LinkedHashMap<>(); //why linked?
+                        for (String col:query.columns){
+                            filtered.put(col,r.get(col));
+                        }
+                        return new Row(filtered);
+                    }).collect(Collectors.toList());
+        }
         if(query.rawWhere.isEmpty())
             return db.getAllRows(query.table);
         else {

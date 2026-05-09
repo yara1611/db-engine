@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +42,20 @@ public class Executor {
         return switch (query.keyword){
             case "SELECT" -> executeSelect(query);
             case "INSERT" -> {executeInsert(query); yield List.of();}
-            case "DELETE" -> {executeDelete(query); yield List.of();} //return empty list instead of null
+            case "DELETE" -> {executeDelete(query); yield List.of();}
+            case "CREATE"->{executeCreate(query); yield List.of();}//return empty list instead of null
             default -> throw new IllegalArgumentException("Unknown keyword: " + query.keyword);
         };
+    }
+
+    private void executeCreate(Query query){
+        var cols = query.columns;
+        List<Column> list = new ArrayList<Column>();
+        for (int i = 0; i < cols.size(); i++) {
+            list.add(new Column(query.columns.get(i),query.dataTypes.get(i)));
+        }
+       db.createTable(query.table,list);
+        System.out.println("TABLE CREATED: "+query.table);
     }
 
     private List<Row> executeSelect(Query query){

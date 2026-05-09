@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.List;
+import java.util.Set;
 
 public class Parser{
 
@@ -10,6 +11,7 @@ public class Parser{
             case "SELECT" -> parseSelect(tokens);
             case "INSERT" -> parseInsert(tokens);
             case "DELETE" -> parseDelete(tokens);
+            case "CREATE" -> parseCreate(tokens);
             default -> throw new IllegalArgumentException("Unknown keyword: " + firstToken);
         };
     }
@@ -133,6 +135,48 @@ public class Parser{
                     parseValue(query.rawWhere.get(2)) // value
             );
             System.out.println(query.condition.column+" "+query.condition.value);
+        }
+        return query;
+    }
+    //CREATE TABLE name (col type const); add const later
+    private Query parseCreate(List<String>tokens){
+        Query query = new Query();
+        Set<String> datatypes= Set.of( "INT","VARCHAR");
+        query.keyword="CREATE";
+        String state = "";
+        String currentCol ="";
+
+        for (int i = 1; i < tokens.size(); i++) {
+
+            String raw = tokens.get(i);
+            String token = raw.toUpperCase();
+
+
+            if(token.equals("TABLE")){
+                state="TABLE";
+                continue;
+            }
+            else if(token.equals("(") || token.equals(",")){
+                state="COLUMNS";
+                continue;
+            }
+            else if (token.equals(")") || token.equals(";")) {
+                break;
+            }
+            switch (state){
+                case "COLUMNS"->{
+                   currentCol = raw;
+                   state="DATATYPE";
+                }
+                case "TABLE" -> query.table = raw;
+                case "DATATYPE" ->{
+                    System.out.println("adding col: " + currentCol + " type: " + raw);
+                    query.columns.add(currentCol);
+                    query.dataTypes.add(raw);
+                    state="COLUMNS";
+            }
+            }
+
         }
         return query;
     }

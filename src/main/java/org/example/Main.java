@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -27,16 +28,19 @@ public class Main {
         //var results = executor.executeQuery(query);
         //results.forEach(System.out::println);
         //db.getTable("users").deleteRow(3);
-        var tokens2 = executor.getTokens("DELETE FROM users WHERE id = 3;");
+//        var tokens2 = executor.getTokens("DELETE FROM users WHERE id = 3;");
+//        var query2 = executor.executeParser(tokens2);
+//        var rows = db.getAllRows("users");
+//        rows.forEach(System.out::println);
+//        //System.out.println(query2.rawWhere);
+//        var results2 = executor.executeQuery(query2);
+//        results2.forEach(System.out::println);
+//        rows = db.getAllRows("users");
+//        rows.forEach(System.out::println);
+        var tokens2 = executor.getTokens("CREATE TABLE test (id INT,name VARCHAR);");
         var query2 = executor.executeParser(tokens2);
-        var rows = db.getAllRows("users");
-        rows.forEach(System.out::println);
-        //System.out.println(query2.rawWhere);
-        var results2 = executor.executeQuery(query2);
-        results2.forEach(System.out::println);
-        rows = db.getAllRows("users");
-        rows.forEach(System.out::println);
-
+        var result2=executor.executeQuery(query2);
+        System.out.println(db.getTable("test").getColumns().stream().map(c->c.getName()+" "+c.getType()).collect(Collectors.joining(", ")));
     }
 }
 

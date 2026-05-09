@@ -10,6 +10,7 @@ public class Query{
     List<String> rawWhere= new ArrayList<>();
     List<Object> values = new ArrayList<>();
     Condition condition;
+    List<String> dataTypes=new ArrayList<>();;
 }
 
 class Condition {
